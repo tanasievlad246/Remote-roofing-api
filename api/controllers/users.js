@@ -1,10 +1,12 @@
 import express from 'express';
 import User from '../models/User';
+import Project from '../models/Project'
 import sequelize from 'sequelize';
 
 const router = express.Router();
 
-router.get('/users', async (req, res) => {
+router.get('/', async (req, res) => {
+    // await sequelize.sync({ alter: true });
     if (req.body.filter) {
         let results = await User.findAll({
             order: sequelize.literal(`${req.body.filter} ASC`)
@@ -20,7 +22,7 @@ router.get('/users', async (req, res) => {
     }
 });
 
-router.get('/users/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     let results = await User.findAll({
         where: {
             id: req.params.id
@@ -31,7 +33,7 @@ router.get('/users/:id', async (req, res) => {
     console.table(results);
 });
 
-router.post('/users', async (req, res) => {
+router.post('/', async (req, res) => {
     let user = await User.create({
         name: 'test',
         surname: 'test',

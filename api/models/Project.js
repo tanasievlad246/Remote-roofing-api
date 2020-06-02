@@ -1,36 +1,35 @@
 import Sequelize from 'sequelize';
 import db from '../config/config';
-import Task from './Task'
-import Project from './Project'
+import User from './User';
 
-const User = db.define('User', {
+const Project = db.define('Project', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    email: Sequelize.STRING,
     name: Sequelize.STRING,
-    surname: Sequelize.STRING,
-    projects_id: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
+    body: Sequelize.STRING,
+    assigner: {
+        type: Sequelize.INTEGER,
         references: {
-            model: Project,
+            model: User,
             key: 'id'
         }
     },
-    tasks_id: {
+    assignees: {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
         references: {
-            model: Task,
+            model: User,
             key: 'id'
         }
     }
 }, {
     timestamps: false,
-    tableName: 'users'
+    tableName: 'projects'
 })
 
+// Project.hasMany(User);
 
 
-export default User;
+export default Project;
