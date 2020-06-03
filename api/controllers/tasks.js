@@ -17,6 +17,9 @@ router.get('/', async (req, res) => {
                 get: 'returns data in JSON format',
                 post: {
                     info: 'the format of the post request can not be altered',
+                    format_info: {
+                        status: 'the "status" property can only be one of "active", "declined", "inactive" or "completed"'
+                    },
                     format: {
                         name: 'string',
                         body: 'string',
