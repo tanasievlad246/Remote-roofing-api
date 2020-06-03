@@ -48,27 +48,13 @@ router.get('/:id', async (req, res) => {
 
 
 //Need to modify for the tasks to be displayed as an array
-router.get('/:id/tasks', async (req, res) => {
+router.get('/:id/work', async (req, res) => {
     let results = await User.findAll(
         {
             where: {
                 id: req.params.id
             },
-            include: Task
-        }
-    );
-    res.status(200);
-    res.send(results);
-});
-
-//Need to modify for the projects to be displayed as an array
-router.get('/:id/projects', async (req, res) => {
-    let results = await User.findAll(
-        {
-            where: {
-                id: req.params.id
-            },
-            include: Project
+            include: [Task, Project]
         }
     );
     res.status(200);

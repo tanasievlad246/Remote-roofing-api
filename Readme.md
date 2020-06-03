@@ -16,6 +16,7 @@ Made with **Express** framework, **Sequelize**, and **PostgreSQL** database
  - '/API' general information on the API
  - '/API/users' returns list of users
  - '/API/users/id' returns a specific user
+ - '/API/users/id/work' returns the tasks and projects of a specific user
  - '/API/tasks' returns list of tasks
  - '/API/tasks/id' returns a specific task
  - '/API/projects' returns list of project
