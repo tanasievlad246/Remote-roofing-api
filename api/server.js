@@ -8,6 +8,7 @@ import dbConnect from './config/dbconnect'
 import users from './controllers/users';
 import tasks from './controllers/tasks';
 import projects from './controllers/projects';
+import userwork from './controllers/userwrok';
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -32,5 +33,6 @@ app.get('/API', (req, res) => {
 app.use('/API/users', users);
 app.use('/API/tasks', tasks);
 app.use('/API/projects', projects);
+app.use('/API/work', userwork);
 
 app.listen(port, () => console.log(`Running on ${port}`))

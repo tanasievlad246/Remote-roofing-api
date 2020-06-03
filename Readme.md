@@ -21,6 +21,8 @@ Made with **Express** framework, **Sequelize**, and **PostgreSQL** database
  - '/API/tasks/id' returns a specific task
  - '/API/projects' returns list of project
  - '/API/projects/id' returns a specific project
+ - '/API/work' returns a list of users with their specific tasks and projects
+
 
 ## Forlder Structure
 ```

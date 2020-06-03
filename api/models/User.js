@@ -20,6 +20,10 @@ const User = db.define('User', {
 /**
  * Model Relations
  */
+
+User.hasMany(Project, { foreignKey: 'assigner' })
+User.hasMany(Task, { foreignKey: 'assigner' })
+
 Project.belongsTo(User, { foreignKey: 'assigner' })
 User.hasOne(Project, { foreignKey: 'assigner' })
 

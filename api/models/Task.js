@@ -32,10 +32,5 @@ const Task = db.define('Task', {
     tableName: 'tasks'
 })
 
-// Project.hasOne(Task, { foreignKey: 'project_id' })
-// Task.belongsTo(Project, { foreignKey: 'project_id' })
-
-// Task.hasOne(User, { foreignKey: 'assigner' })
-// Task.belongsTo(User, { foreignKey: 'assigner' })
 
 export default Task;
