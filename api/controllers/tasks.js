@@ -34,14 +34,24 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    let results = await Task.findAll({
-        where: {
-            id: req.params.id
-        },
-        include: [User, Project]
-    });
-    res.status(200);
-    res.send(results);
+    try {
+        let results = await Task.findAll({
+            where: {
+                id: req.params.id
+            },
+            include: [User, Project]
+        });
+        res.status(200);
+        if (results.length < 1) {
+            res.send({ message: "Task not found" })
+        } else {
+            res.send(results);
+        }
+    } catch (e) {
+        res.send({
+            error: "resource not found"
+        })
+    }
 });
 
 router.post('/', async (req, res) => {

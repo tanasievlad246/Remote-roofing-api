@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     {
         info: 'reqeusts do not require API key',
         requests: {
-            get: 'returns data in JSON format',
+            get: { info: 'returns data in JSON format', filter: { info: 'request to filter the results by name or surname or both', type: 'string', ie: 'name, surname' } },
             post: {
                 info: 'the format of the post request can not be altered',
                 format: {
@@ -46,6 +46,8 @@ router.get('/:id', async (req, res) => {
     res.send(results);
 });
 
+
+//Need to modify for the tasks to be displayed as an array
 router.get('/:id/tasks', async (req, res) => {
     let results = await User.findAll(
         {
@@ -59,6 +61,7 @@ router.get('/:id/tasks', async (req, res) => {
     res.send(results);
 });
 
+//Need to modify for the projects to be displayed as an array
 router.get('/:id/projects', async (req, res) => {
     let results = await User.findAll(
         {
