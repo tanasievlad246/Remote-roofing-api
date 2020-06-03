@@ -5,10 +5,28 @@ import User from '../models/User';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    let results = await Project.findAll();
+    let results = await Project.findAll({
+        include: User
+    });
     res.status(200);
-    res.send(results);
-    console.table(results);
+    res.send({
+        intructions: {
+            info: 'reqeusts do not require API key',
+            requests: {
+                get: 'returns data in JSON format',
+                post: {
+                    info: 'the format of the post request can not be altered',
+                    format: {
+                        name: 'string',
+                        body: 'string',
+                        status: ['active', 'declined', 'inactive', 'completed'],
+                        assigner: 'integer'
+                    }
+                }
+            }
+        },
+        results
+    });
 });
 
 router.get('/:id', async (req, res) => {
@@ -20,7 +38,6 @@ router.get('/:id', async (req, res) => {
     });
     res.status(200);
     res.send(results);
-    console.table(results);
 });
 
 router.post('/', async (req, res) => {
@@ -32,7 +49,6 @@ router.post('/', async (req, res) => {
     })
     res.status(200);
     res.send(project);
-    console.log('Success');
 })
 
 export default router;

@@ -24,7 +24,4 @@ const Project = db.define('Project', {
     tableName: 'projects'
 })
 
-// Task.hasOne(Project, { foreignKey: 'project_id' })
-// Project.belongsTo(Task, { foreignKey: 'project_id' })
-
 export default Project;

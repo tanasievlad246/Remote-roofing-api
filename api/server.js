@@ -16,21 +16,21 @@ app.use(bodyParser.json())
 
 dbConnect();
 
-
 app.get('/', (req, res) => {
+    res.status(200)
+    res.redirect('/API')
+})
+
+app.get('/API', (req, res) => {
     res.status(200).send({
-        message: "Welcome to the Remote Roofing API"
+        name: "Remote Roofing API",
+        data_type: "JSON",
+        routes: ['/API/users', '/API/tasks', '/API/projects'],
     })
 })
 
-app.use('/users', users);
-app.use('/tasks', tasks);
-app.use('/projects', projects);
-
-
-
-
-
-
+app.use('/API/users', users);
+app.use('/API/tasks', tasks);
+app.use('/API/projects', projects);
 
 app.listen(port, () => console.log(`Running on ${port}`))
