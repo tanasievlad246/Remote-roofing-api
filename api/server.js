@@ -7,6 +7,7 @@ import dbConnect from './config/dbconnect'
 */
 import users from './controllers/users';
 import tasks from './controllers/tasks';
+import projects from './controllers/projects';
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -17,13 +18,14 @@ dbConnect();
 
 
 app.get('/', (req, res) => {
-    res.status(200).res.send({
+    res.status(200).send({
         message: "Welcome to the Remote Roofing API"
     })
 })
 
 app.use('/users', users);
 app.use('/tasks', tasks);
+app.use('/projects', projects);
 
 
 

@@ -1,23 +1,11 @@
 import express from 'express';
-import Task from '../models/Task';
+import Project from '../models/Project';
 import User from '../models/User';
-
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    let results = await Task.findAll();
-    res.status(200);
-    res.send(results);
-    console.table(results);
-});
-
-router.get('/:id', async (req, res) => {
-    let results = await Task.findAll({
-        where: {
-            id: req.params.id
-        }
-    });
+    let results = await Project.findAll();
     res.status(200);
     res.send(results);
     console.table(results);
@@ -36,16 +24,14 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    let task = await Task.create({
+    let project = await Project.create({
         name: req.body.name,
-        description: req.body.description,
-        score: req.body.score,
+        body: req.body.body,
         status: req.body.status,
-        assigner: req.body.assigner,
-        project_id: req.body.project
+        assigner: req.body.assigner
     })
     res.status(200);
-    res.send(task);
+    res.send(project);
     console.log('Success');
 })
 

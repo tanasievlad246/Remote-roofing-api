@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import db from '../config/config';
-import Task from './Task'
-import Project from './Project'
+import Task from '../models/Task';
+import Project from '../models/Project';
 
 const User = db.define('User', {
     id: {
@@ -12,25 +12,18 @@ const User = db.define('User', {
     email: Sequelize.STRING,
     name: Sequelize.STRING,
     surname: Sequelize.STRING,
-    projects_id: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-        references: {
-            model: Project,
-            key: 'id'
-        }
-    },
-    tasks_id: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-        references: {
-            model: Task,
-            key: 'id'
-        }
-    }
 }, {
     timestamps: false,
     tableName: 'users'
 })
 
+User.hasMany(Task, { foreignKey: 'assigner' })
+User.hasMany(Project, { foreignKey: 'assigner' })
 
+Project.belongsTo(User, { foreignKey: 'assigner' })
+User.hasOne(Project, { foreignKey: 'assigner' })
 
+User.belongsTo(Task, { foreignKey: 'assigner' })
+
+Task.hasOne(User, { foreignKey: 'assigner' })
 export default User;
