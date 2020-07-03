@@ -50,4 +50,4 @@ Restfull API made with **Express** framework, **Sequelize**, and **PostgreSQL** 
 **./aip/data/userList.js** exports array of objects to be used to populate users table
 
 ## Connection
-Go to **./api/config/config.js** and modify **database**, **username** and **password** to tour PostgreSQL credentials
+Go to **./api/config/config.js** and modify **database**, **username** and **password** to your PostgreSQL credentials
