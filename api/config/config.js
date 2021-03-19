@@ -3,7 +3,7 @@ import Sequelize from 'sequelize';
 /**
  * Connection credentials
  */
-const database = 'RemoteRoofing'
+const database = 'remoteroofing'
 const username = 'postgres';
 const password = 'fortuna246'
 

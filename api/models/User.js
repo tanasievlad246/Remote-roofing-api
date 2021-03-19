@@ -17,19 +17,4 @@ const User = db.define('User', {
     tableName: 'users'
 })
 
-/**
- * Model Relations
- */
-
-User.hasMany(Project, { foreignKey: 'assigner' })
-User.hasMany(Task, { foreignKey: 'assigner' })
-
-Project.belongsTo(User, { foreignKey: 'assigner' })
-User.hasOne(Project, { foreignKey: 'assigner' })
-
-Task.belongsTo(User, { foreignKey: 'assigner' })
-User.hasOne(Task, { foreignKey: 'assigner' })
-
-Task.belongsTo(Project, { foreignKey: 'project_id' })
-
 export default User;
