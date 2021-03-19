@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import db from '../config/config';
+import db from '../api/config/config';
 import User from './User';
 import Project from './Project';
 
