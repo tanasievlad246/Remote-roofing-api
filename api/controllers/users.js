@@ -45,13 +45,22 @@ router.get('/:id/work', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+    // Implement password hashing for password
+
     let user = await User.create({
         name: req.body.name,
         surname: req.body.surname,
+        password: req.body.password,
         email: req.body.email,
     })
     res.status(200);
     res.send(user);
 })
+
+//Implement delete route 
+//Implement put route
+
+//Implement user authentication
+//Implement login route
 
 export default router;
