@@ -1,30 +1,32 @@
 import { Model } from 'sequelize';
+import Project from './Project';
+import Task from './Task';
 
-export default (sequelize, DataTypes) => {
-    class User extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate(models) {
-            // define association here
-        }
-    };
-    User.init({
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        name: DataTypes.STRING,
-        sruname: DataTypes.STRING,
-        email: DataTypes.STRING
-    }, {
-        sequelize,
-        modelName: 'User',
-        timestamps: false,
-        tableName: 'users'
-    });
-    return User;
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate({ Project, Task }) {
+      this.hasMany(Project, { foreignKey: 'id' });
+      this.hasMany(Task, { foreignKey: 'id' });
+    }
+  };
+  User.init({
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    name: DataTypes.STRING,
+    surname: DataTypes.STRING,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'User',
+  });
+  return User;
 };

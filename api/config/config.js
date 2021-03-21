@@ -3,9 +3,9 @@ import Sequelize from 'sequelize';
 /**
  * Connection credentials
  */
-const database = 'remoteroofing'
+const database = 'express-sequelize'
 const username = 'postgres';
-const password = 'fortuna246'
+const password = 'password'
 
 const sequelize = new Sequelize(database, username, password,
     {

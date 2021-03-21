@@ -1,27 +1,37 @@
-import Sequelize from 'sequelize';
-import db from '../config/config';
+import { Model } from 'sequelize';
 import User from './User';
-import Task from '../models/Task';
 
-const Project = db.define('Project', {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    name: Sequelize.STRING,
-    body: Sequelize.STRING,
-    status: Sequelize.STRING,
-    assigner: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: User,
-            key: 'id'
-        }
+module.exports = (sequelize, DataTypes) => {
+  class Project extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate({ User }) {
+      this.belongsTo(User, { foreignKey: 'asigner' });
     }
-}, {
-    timestamps: false,
-    tableName: 'projects'
-})
-
-export default Project;
+  };
+  Project.init({
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    name: DataTypes.STRING,
+    description: DataTypes.STRING,
+    score: DataTypes.INTEGER,
+    status: DataTypes.STRING,
+    asigner: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User,
+        key: 'id'
+      }
+    }
+  }, {
+    sequelize,
+    modelName: 'Project',
+  });
+  return Project;
+};

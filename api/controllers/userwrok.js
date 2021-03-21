@@ -1,8 +1,7 @@
 import express from 'express';
-import User from '../models/User';
-import UserWork from '../models/UserWork';
-import Task from '../models/Task';
-import Project from '../models/Project';
+import User from '../../models/User';
+import Task from '../../models/Task';
+import Project from '../../models/Project';
 
 const router = express.Router();
 
