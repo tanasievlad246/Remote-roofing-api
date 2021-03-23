@@ -45,6 +45,39 @@ router.post('/', async (req, res) => {
     res.send(task);
 })
 
-//implement delete route and put route
+router.delete("/:id", async (req, res) => {
+    try {
+        const operation = Task.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+        res.status(202);
+        res.send(operation);
+    } catch (error) {
+        res.send(error);
+    }
+})
+
+router.patch("/:id", async (req, res) => {
+    try {
+        const update = await Task.update(req.body, {
+            where: {
+                id: req.params.id
+            }
+        });
+        res.status(200);
+        res.send(Task.findOne({
+            where: {
+                id: req.params.id
+            }
+        }));
+    } catch (error) {
+        console.log(error);
+        res.send(error);
+    }
+});
+
+//Implement assigning of Tasks
 
 export default router;

@@ -5,6 +5,9 @@ import { User, Task, Project } from '../../models/index';
 
 const router = express.Router();
 
+/**
+ * Get all users
+ */
 router.get('/', async (req, res) => {
     if (req.body.filter) {
         let results = await User.findAll({
@@ -19,6 +22,10 @@ router.get('/', async (req, res) => {
     }
 });
 
+/**
+ * Get one user
+ * @param { id } "the uuid of a user"
+ */
 router.get('/:id', async (req, res) => {
     let results = await User.findAll({
         where: {
@@ -30,8 +37,11 @@ router.get('/:id', async (req, res) => {
 });
 
 
-//Need to modify for the tasks to be displayed as an array
-router.get('/:id/work', async (req, res) => {
+/**
+ * Get one user and all projects and tasks the user is an asigner for
+ * @param { id } "the uuid of a user"
+ */
+router.get('/:id/asigner', async (req, res) => {
     let results = await User.findAll(
         {
             where: {
@@ -44,6 +54,10 @@ router.get('/:id/work', async (req, res) => {
     res.send(results);
 });
 
+/**
+ * Post one user
+ * TODO: Implement password hashing
+ */
 router.post('/', async (req, res) => {
     // Implement password hashing for password
 
@@ -55,12 +69,51 @@ router.post('/', async (req, res) => {
     })
     res.status(200);
     res.send(user);
-})
+});
 
-//Implement delete route 
-//Implement put route
+/**
+ * Update user fields
+ * @param { id } "the uuid of a user"
+ */
+router.patch("/:id", async (req, res) => {
+    try {
+        const update = await User.update(req.body, {
+            where: {
+                id: req.params.id
+            }
+        });
+        console.log(update);
+        res.status(200);
+        res.send(User.findOne({
+            where: {
+                id: req.params.id
+            }
+        }));
+    } catch (error) {
+        console.log(error);
+        res.send(error);
+    }
+});
 
-//Implement user authentication
-//Implement login route
+
+/**
+ * Delete one user
+ */
+router.delete("/:id", async (req, res) => {
+    try {
+        const operation = await User.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+        res.status(202);
+        res.send(operation);
+    } catch (error) {
+        res.send(error);
+    }
+});
+
+//TODO: Implement user authentication
+//TODO: Implement login route
 
 export default router;

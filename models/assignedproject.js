@@ -1,39 +1,41 @@
 import { Model } from 'sequelize';
-import User from './User';
-import AssignedProject from './assignedproject';
+import User from './user';
+import Project from './project';
 
 module.exports = (sequelize, DataTypes) => {
-  class Project extends Model {
+  class AssignedProject extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ User }) {
-      this.belongsTo(User, { foreignKey: 'asigner' });
-      this.belongsTo(AssignedProject);
+    static associate(models) {
+      this.hasOne(User, { foreignKey: 'user_id' });
+      this.hasOne(Project, { foreignKey: 'project_id' });
     }
   };
-  Project.init({
+  AssignedProject.init({
     id: {
       type: DataTypes.UUID,
-      primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     },
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    score: DataTypes.INTEGER,
-    status: DataTypes.STRING,
-    asigner: {
+    user_id: {
       type: DataTypes.UUID,
       references: {
         model: User,
         key: 'id'
       }
     }
+    project_id: {
+      type: DataTypes.UUID,
+      references: {
+        model: Project,
+        key: 'id'
+      }
+    }
   }, {
     sequelize,
-    modelName: 'Project',
+    modelName: 'AssignedProject',
   });
-  return Project;
+  return AssignedProject;
 };

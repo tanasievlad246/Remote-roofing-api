@@ -1,6 +1,8 @@
 import { Model } from 'sequelize';
 import Project from './Project';
 import Task from './Task';
+import AssignedTask from './assignedtask';
+import AssignedProject from './assignedproject';
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -12,12 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ Project, Task }) {
       this.hasMany(Project, { foreignKey: 'id' });
       this.hasMany(Task, { foreignKey: 'id' });
+      this.belongsTo(AssignedTask);
+      this.belongsTo(AssignedProject);
     }
   };
   User.init({
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
     name: DataTypes.STRING,
