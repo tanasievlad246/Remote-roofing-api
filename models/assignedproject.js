@@ -9,24 +9,21 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      this.hasOne(User, { foreignKey: 'user_id' });
-      this.hasOne(Project, { foreignKey: 'project_id' });
+    static associate({ User }) {
+      this.belongsTo(User, { foreignKey: 'user_id' });
     }
   };
+  // TODO: Change name to ProjectAssignees
+  // TODO: Add name, surname and email of assignees
   AssignedProject.init({
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4
-    },
-    user_id: {
+    UserId: {
       type: DataTypes.UUID,
       references: {
         model: User,
         key: 'id'
       }
-    }
-    project_id: {
+    },
+    ProjectId: {
       type: DataTypes.UUID,
       references: {
         model: Project,

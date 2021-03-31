@@ -2,19 +2,10 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('AssignedTasks', {
-      id: {
-        allowNull: false,
-        primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4
-      },
-      user_id: {
+      UserId: {
         type: Sequelize.UUID
       },
-      task_id: {
-        type: Sequelize.UUID
-      },
-      project_id: {
+      TaskId: {
         type: Sequelize.UUID
       },
       createdAt: {

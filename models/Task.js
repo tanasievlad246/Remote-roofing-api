@@ -11,11 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ User, Project }) {
+    static associate({ User, Project, AssignedTask }) {
       this.belongsTo(User, { foreignKey: 'asigner' });
       this.belongsTo(Project, { foreignKey: 'project' });
-      this.belongsTo(AssignedTask);
-      this.belongsTo(AssignedProject);
+      this.belongsToMany(User, { through: AssignedTask, as: "assignees" });
     }
   };
   Task.init({
@@ -27,6 +26,9 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     score: DataTypes.INTEGER,
+    /**
+     * Status: Active, Inactive, Declined, Completed
+     */
     status: DataTypes.STRING,
     asigner: {
       type: DataTypes.UUID,

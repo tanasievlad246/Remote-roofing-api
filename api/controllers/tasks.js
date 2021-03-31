@@ -1,11 +1,22 @@
 import express from 'express';
-import { User, Task, Project } from '../../models/index';
+import { Op } from 'sequelize';
+import { User, Task, Project, AssignedTask } from '../../models/index';
 
 const router = express.Router();
 
+/**
+ * Get all tasks
+ * TODO: One must be able to filter by name, description, 
+ * status array (boolean OR operation filter), 
+ * name/surname of the assigner, 
+ * name/surname/id of the assignee(s) and by score
+ */
 router.get('/', async (req, res) => {
     let results = await Task.findAll({
-        include: [User, Project]
+        include: [User, Project, {
+            model: User,
+            as: "assignees"
+        }]
     });
     res.status(200);
     res.send(results);
@@ -16,8 +27,7 @@ router.get('/:id', async (req, res) => {
         let results = await Task.findAll({
             where: {
                 id: req.params.id
-            },
-            include: [User, Project]
+            }
         });
         res.status(200);
         if (results.length < 1) {
@@ -38,11 +48,23 @@ router.post('/', async (req, res) => {
         description: req.body.description,
         score: req.body.score,
         status: req.body.status,
-        assigner: req.body.assigner,
-        project_id: req.body.project
+        asigner: req.body.asigner,
+        project: req.body.project
     })
     res.status(200);
     res.send(task);
+})
+
+/**
+ * Assign a task to a user
+ */
+router.post('/assign', async (req, res) => {
+    let assign = await AssignedTask.create({
+        UserId: req.body.user_id,
+        TaskId: req.body.task_id
+    })
+    res.status(200);
+    res.send(assign);
 })
 
 router.delete("/:id", async (req, res) => {

@@ -7,11 +7,12 @@ const router = express.Router();
 
 /**
  * Get all users
+ * TODO: Implement filtering by name and surname
  */
 router.get('/', async (req, res) => {
     if (req.body.filter) {
         let results = await User.findAll({
-            order: sequelize.literal(`${req.body.filter} ASC`)
+            order: sequelize.literal(`${req.body.filter} ASC`),
         });
         res.status(200);
         res.send(results);

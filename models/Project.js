@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ User }) {
       this.belongsTo(User, { foreignKey: 'asigner' });
-      this.belongsTo(AssignedProject);
     }
   };
   Project.init({
@@ -23,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     score: DataTypes.INTEGER,
+    /**
+     * Status: Active, Inactive, Declined, Completed
+     */
     status: DataTypes.STRING,
     asigner: {
       type: DataTypes.UUID,

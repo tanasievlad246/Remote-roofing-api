@@ -4,6 +4,13 @@ import { User, Task, Project } from '../../models/index';
 
 const router = express.Router();
 
+/**
+ * GET ALL PROJECTS
+ * TODO: One must be able to filter by name, description, 
+ * status array (boolean OR operation filter), 
+ * name/surname of the assigner, 
+ * name/surname/id of the assignee(s) and by score
+ */
 router.get('/', async (req, res) => {
     let results = await Project.findAll({
         include: User
@@ -39,8 +46,10 @@ router.post('/', async (req, res) => {
     let project = await Project.create({
         name: req.body.name,
         body: req.body.body,
+        description: req.body.description,
         status: req.body.status,
-        assigner: req.body.assigner
+        score: req.body.score,
+        asigner: req.body.asigner
     })
     res.status(200);
     res.send(project);
