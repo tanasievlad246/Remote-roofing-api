@@ -13,7 +13,10 @@ const router = express.Router();
  */
 router.get('/', async (req, res) => {
     let results = await Project.findAll({
-        include: User
+        include: [User, {
+            model: User,
+            as: "ProjectAssignees"
+        }]
     });
     res.status(200);
     res.send(results);

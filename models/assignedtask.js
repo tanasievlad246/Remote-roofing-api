@@ -1,7 +1,6 @@
 import { Model } from 'sequelize';
-import User from './user';
-import Task from './task';
-import Project from './project';
+import User from './User';
+import Task from './Task';
 
 
 module.exports = (sequelize, DataTypes) => {

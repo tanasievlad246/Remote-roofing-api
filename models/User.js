@@ -1,8 +1,8 @@
 import { Model } from 'sequelize';
-import Project from './Project';
-import Task from './Task';
-import AssignedTask from './assignedtask';
-import AssignedProject from './assignedproject';
+import Project from "./Project";
+import Task from "./Task";
+import AssignedTask from "./assignedtask";
+import AssignedProject from "./assignedproject";
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Project, { foreignKey: 'id' });
       this.hasMany(Task, { foreignKey: 'id' });
       this.belongsToMany(Task, { through: AssignedTask });
-      this.hasMany(AssignedProject, { foreignKey: 'id' });
+      this.belongsToMany(Project, { through: AssignedProject, as: "ProjectAssignees" });
     }
   };
   User.init({

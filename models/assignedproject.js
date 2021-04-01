@@ -1,6 +1,6 @@
 import { Model } from 'sequelize';
-import User from './user';
-import Project from './project';
+import User from './User';
+import Project from './Project';
 
 module.exports = (sequelize, DataTypes) => {
   class AssignedProject extends Model {
@@ -9,8 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ User }) {
-      this.belongsTo(User, { foreignKey: 'user_id' });
+    static associate(models) {
     }
   };
   // TODO: Change name to ProjectAssignees
