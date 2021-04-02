@@ -1,5 +1,5 @@
 import express from 'express';
-import { User, Task, Project } from '../../models/index';
+import { User, Task, Project, AssignedProject } from '../../models/index';
 
 
 const router = express.Router();
@@ -15,7 +15,8 @@ router.get('/', async (req, res) => {
     let results = await Project.findAll({
         include: [User, {
             model: User,
-            as: "ProjectAssignees"
+            as: "ProjectAssignees",
+            through: { AssignedProject, attributes: [] } // Excludes relation table from the query
         }]
     });
     res.status(200);
@@ -40,10 +41,22 @@ router.get('/:id', async (req, res) => {
         }
     } catch (e) {
         res.send({
-            error: "resource not found"
+            error: e
         })
     }
 });
+
+/**
+ * Assign a project to a user
+ */
+router.post('/assign', async (req, res) => {
+    let assign = await AssignedProject.create({
+        UserId: req.body.user_id,
+        ProjectId: req.body.project_id
+    })
+    res.status(200);
+    res.send(assign);
+})
 
 router.post('/', async (req, res) => {
     let project = await Project.create({

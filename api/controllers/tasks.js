@@ -15,7 +15,8 @@ router.get('/', async (req, res) => {
     let results = await Task.findAll({
         include: [User, Project, {
             model: User,
-            as: "assignees"
+            as: "assignees",
+            through: { attributes: [] } // Excludes relation from the response
         }]
     });
     res.status(200);
