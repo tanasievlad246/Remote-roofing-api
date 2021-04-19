@@ -7,7 +7,7 @@ const router = express.Router();
 
 /**
  * Get all users
- * TODO: Implement filtering by name and surname
+ * TODO: Implement filtering by name and surname 
  */
 router.get('/', async (req, res) => {
     if (req.body.filter) {
