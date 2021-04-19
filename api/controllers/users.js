@@ -115,6 +115,10 @@ router.delete("/:id", async (req, res) => {
 });
 
 //TODO: Implement user authentication
+router.post("/users", (req, res) => {
+    console.log(req);
+})
+
 //TODO: Implement login route
 
 export default router;
