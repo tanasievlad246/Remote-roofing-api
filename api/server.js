@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dbConnect from './config/dbconnect'
+import './config/passport'
+import passport from 'passport';
 
 /*
 * Importing  the controllers
@@ -14,8 +16,9 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 app.use(bodyParser.json())
-
 dbConnect();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (req, res) => {
     res.status(200)
