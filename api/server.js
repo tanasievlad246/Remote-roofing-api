@@ -16,6 +16,7 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: false }))
 dbConnect();
 app.use(passport.initialize());
 app.use(passport.session());
