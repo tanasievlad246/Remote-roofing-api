@@ -2,8 +2,6 @@ import express from 'express';
 import sequelize from 'sequelize';
 import passport from 'passport';
 import { hashPassword } from '../utils/passwordUtils';
-import session from 'express-session';
-import PgStore from 'connect-pg-simple';
 import { User, Task, Project } from '../../models/index';
 
 const router = express.Router();
@@ -27,7 +25,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-//TODO: Implement user login
+//FIXME: login not working
 router.post("/login", passport.authenticate('local', {
     failureRedirect: "login-fail",
     successRedirect: "success-login"
