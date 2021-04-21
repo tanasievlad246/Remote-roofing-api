@@ -1,8 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dbConnect from './config/dbconnect'
-import './config/passport'
 import passport from 'passport';
+import session from 'express-session';
+import PgStore from 'connect-pg-simple'
 
 /*
 * Importing  the controllers
@@ -18,8 +19,33 @@ const port = process.env.PORT || 8000;
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: false }))
 dbConnect();
+
+const pgSession = PgStore(session)
+
+//FIXME: Connect to pg store using connect-pg-sequelize
+app.use(session({
+    secret: 'zxcvbnm',
+    resave: false,
+    saveUninitialized: true,
+    store: new pgSession({
+        conString:'pg://postgres:password@localhost:5432/express-sequelize'
+    }),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24
+    }
+}));
+
+import './config/passport';
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req, res, next) => {
+    console.log("Debug middleware")
+    console.log(req.session);
+    console.log(req.user);
+    next();
+})
 
 app.get('/', (req, res) => {
     res.status(200)
