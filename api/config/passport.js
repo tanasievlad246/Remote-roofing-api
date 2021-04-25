@@ -8,7 +8,7 @@ dbConnect();
 
 const LocalStrategy = passportLocal.Strategy;
 
-const verifyCallback = async (username, password, done) => {
+const verifyCallback = async (req, username, password, done) => {
     try {
         const user = await User.findOne({
             where: {
@@ -17,22 +17,22 @@ const verifyCallback = async (username, password, done) => {
         });
 
         if (!user) {
-            return done(null, false);
+            return done(null, false, { message: "Invalid username" });
         }
 
-        const isValid = validatePassword(password, user.hash, user.salt);
+        const isValid = validatePassword(password, user.password, user.salt);
 
         if (isValid) {
             return done(null, user);
         } else {
-            return done(null, false);
+            return done(null, false, { message: "Invalid password" });
         }
     } catch (err) {
         done(err);
     }
 }
 
-const strategy = new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, verifyCallback);
+const strategy = new LocalStrategy({ passReqToCallback: true, usernameField: "email", passwordField: "password" }, verifyCallback);
 
 passport.use(strategy);
 
@@ -42,7 +42,11 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (userId, done) => {
     try {
-        const user = await User.findByPk(userId);
+        const user = await User.findOne({
+            where: {
+                id: userId
+            }
+        });
         done(null, user);
     } catch (error) {
         done(err);

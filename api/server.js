@@ -4,7 +4,8 @@ import dbConnect from './config/dbconnect'
 import passport from 'passport';
 import session from 'express-session';
 import sequelizeStore from 'connect-session-sequelize';
-import sequelize from '../api/config/config'
+import sequelize from '../api/config/config';
+import flash from 'connect-flash';
 
 /*
 * Importing  the controllers
@@ -37,6 +38,8 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24
     }
 }));
+
+app.use(flash());
 
 import './config/passport';
 
