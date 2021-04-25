@@ -3,7 +3,7 @@ import passport from 'passport';
 
 const router = express.Router();
 
-//FIXME: login not working
+//FIXME: not saving user id in session
 router.post("/login", passport.authenticate('local', {
     failureRedirect: "login-fail",
     successRedirect: "success-login"
