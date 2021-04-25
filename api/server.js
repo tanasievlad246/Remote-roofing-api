@@ -3,7 +3,8 @@ import bodyParser from 'body-parser';
 import dbConnect from './config/dbconnect'
 import passport from 'passport';
 import session from 'express-session';
-import PgStore from 'connect-pg-simple'
+import sequelizeStore from 'connect-session-sequelize';
+import sequelize from '../api/config/config'
 
 /*
 * Importing  the controllers
@@ -12,23 +13,25 @@ import users from './controllers/users';
 import tasks from './controllers/tasks';
 import projects from './controllers/projects';
 import userwork from './controllers/userwrok';
+import auth from './controllers/localauth';
 
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8090;
 
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: false }))
 dbConnect();
 
-const pgSession = PgStore(session)
+const SequelizeStore = sequelizeStore(session.Store)
+const db = sequelize
 
 //FIXME: Connect to pg store using connect-pg-sequelize
 app.use(session({
     secret: 'zxcvbnm',
     resave: false,
     saveUninitialized: true,
-    store: new pgSession({
-        conString:'pg://postgres:password@localhost:5432/express-sequelize'
+    store: new SequelizeStore({
+        db: db
     }),
     cookie: {
         maxAge: 1000 * 60 * 60 * 24
@@ -59,6 +62,8 @@ app.get('/API', (req, res) => {
         routes: ['/API/users', '/API/tasks', '/API/projects'],
     })
 })
+
+app.use('/local', auth);
 
 app.use('/API/users', users);
 app.use('/API/tasks', tasks);

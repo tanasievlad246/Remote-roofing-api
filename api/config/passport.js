@@ -19,9 +19,9 @@ const verifyCallback = async (username, password, done) => {
         if (!user) {
             return done(null, false);
         }
-    
+
         const isValid = validatePassword(password, user.hash, user.salt);
-    
+
         if (isValid) {
             return done(null, user);
         } else {
@@ -32,7 +32,7 @@ const verifyCallback = async (username, password, done) => {
     }
 }
 
-const strategy = new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, verifyCallback); 
+const strategy = new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, verifyCallback);
 
 passport.use(strategy);
 
@@ -42,12 +42,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (userId, done) => {
     try {
-        const user = await User.findOne({
-            where: {
-                id: userId
-            }
-        });
-
+        const user = await User.findByPk(userId);
         done(null, user);
     } catch (error) {
         done(err);
