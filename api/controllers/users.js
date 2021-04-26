@@ -80,6 +80,12 @@ router.post('/', async (req, res) => {
     res.send(user);
 });
 
+
+// TODO: Create login functionality for jwt
+router.post("/login", passport.authenticate('jwt', { session: false, failureFlash: true }), (req, res) => {
+
+});
+
 /**
  * Update user fields
  * @param { id } "the uuid of a user"

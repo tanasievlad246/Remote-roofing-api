@@ -26,32 +26,40 @@ dbConnect();
 const SequelizeStore = sequelizeStore(session.Store)
 const db = sequelize
 
-//FIXME: Connect to pg store using connect-pg-sequelize
-app.use(session({
-    secret: 'zxcvbnm',
-    resave: false,
-    saveUninitialized: true,
-    store: new SequelizeStore({
-        db: db
-    }),
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24
-    }
-}));
-
+// for logging messages of express sessions with passport
 app.use(flash());
 
-import './config/passport';
+// for authentication and authorization within the server
+// app.use(session({
+//     secret: 'zxcvbnm',
+//     resave: false,
+//     saveUninitialized: true,
+//     store: new SequelizeStore({
+//         db: db
+//     }),
+//     cookie: {
+//         maxAge: 1000 * 60 * 60 * 24
+//     }
+// }));
+
+
+// import './config/passport'; for authentication and authorization runnning within the server
+
+// for jwt authentication and authorization
+import jwtConfig from './config/jwtconfig';
+
+jwtConfig(passport);
 
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
-app.use((req, res, next) => {
-    console.log("Debug middleware")
-    console.log(req.session);
-    console.log(req.user);
-    next();
-})
+// Small debug middleware to look into sessions
+// app.use((req, res, next) => {
+//     console.log("Debug middleware")
+//     console.log(req.session);
+//     console.log(req.user);
+//     next();
+// })
 
 app.get('/', (req, res) => {
     res.status(200)
@@ -66,7 +74,8 @@ app.get('/API', (req, res) => {
     })
 })
 
-app.use('/local', auth);
+// authentication and authorization using sessions
+// app.use('/local', auth);
 
 app.use('/API/users', users);
 app.use('/API/tasks', tasks);

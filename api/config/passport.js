@@ -1,6 +1,6 @@
 import passport from 'passport';
 import passportLocal from 'passport-local';
-import dbConnect from './dbconnect';;
+import dbConnect from './dbconnect';
 import { validatePassword } from '../utils/passwordUtils';
 import { User } from '../../models/index';
 
