@@ -1,4 +1,5 @@
 import express from 'express';
+import passport from 'passport';
 import { User, Task, Project, AssignedProject } from '../../models/index';
 
 
@@ -11,7 +12,7 @@ const router = express.Router();
  * name/surname of the assigner, 
  * name/surname/id of the assignee(s) and by score
  */
-router.get('/', async (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
     let results = await Project.findAll({
         include: [User, {
             model: User,

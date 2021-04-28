@@ -23,6 +23,7 @@ const options = {
 };
 
 export default (passport) => {
+    console.log(pathToKey);
     // The JWT payload is passed into the verify callback
     passport.use(new Strategy(options, async function (jwt_payload, done) {
 
@@ -32,7 +33,7 @@ export default (passport) => {
         const user = await User.findOne({ id: jwt_payload.sub });
 
         if (!user) {
-            return done(null, false, { message: "Error" });
+            return done(null, false, { message: user });
         } else {
             return done(null, user);
         }

@@ -1,8 +1,9 @@
 import express from 'express';
 import sequelize from 'sequelize';
 import passport from 'passport';
-import { hashPassword } from '../utils/passwordUtils';
+import { hashPassword, validatePassword } from '../utils/passwordUtils';
 import { User, Task, Project } from '../../models/index';
+import { issueJWT } from '../utils/JWTUtils';
 
 const router = express.Router();
 
@@ -61,9 +62,6 @@ router.get('/:id/asigner', async (req, res) => {
  * TODO: Implement password hashing
  */
 router.post('/', async (req, res) => {
-    // Implement password hashing for password
-    console.log(req.body)
-
     const securityHashes = hashPassword(req.body.password);
     const salt = securityHashes.salt;
     const password = securityHashes.hash;
@@ -74,7 +72,7 @@ router.post('/', async (req, res) => {
         password: password,
         salt: salt,
         email: req.body.email,
-    })
+    });
 
     res.status(200);
     res.send(user);
@@ -82,8 +80,34 @@ router.post('/', async (req, res) => {
 
 
 // TODO: Create login functionality for jwt
-router.post("/login", passport.authenticate('jwt', { session: false, failureFlash: true }), (req, res) => {
+router.post("/login", async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
 
+    try {
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        });
+
+        const pwValidation = validatePassword(password, user.password, user.salt);
+
+        if (!user) {
+            res.status(404);
+            res.send({
+                message: "User not found"
+            });
+        } else if (pwValidation) {
+            res.status(200);
+            res.send(issueJWT(user));
+        }
+    } catch (error) {
+        res.send({
+            message: error
+        });
+        console.log(error);
+    }
 });
 
 /**
