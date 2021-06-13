@@ -50,7 +50,7 @@ router.get('/:id/asigner', async (req, res) => {
             where: {
                 id: req.params.id
             },
-            include: [Task, Project]
+            include: [ Task, Project ]
         }
     );
     res.status(200);
@@ -144,7 +144,7 @@ router.delete("/:id", async (req, res) => {
             where: {
                 id: req.params.id
             }
-        })
+        });
         res.status(202);
         res.send(operation);
     } catch (error) {

@@ -23,7 +23,6 @@ const options = {
 };
 
 export default (passport) => {
-    console.log(pathToKey);
     // The JWT payload is passed into the verify callback
     passport.use(new Strategy(options, async function (jwt_payload, done) {
 

@@ -12,16 +12,25 @@ const router = express.Router();
  * name/surname of the assigner, 
  * name/surname/id of the assignee(s) and by score
  */
-router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    let results = await Project.findAll({
-        include: [User, {
-            model: User,
-            as: "ProjectAssignees",
-            through: { AssignedProject, attributes: [] } // Excludes relation table from the query
-        }]
-    });
-    res.status(200);
-    res.send(results);
+router.get('/assignees', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const userId = req.user.dataValues.id;
+
+    try {
+        let results = await Project.findAll({
+            include: [User, {
+                model: User,
+                as: "ProjectAssignees",
+                where: {
+                    "id": userId
+                },
+                through: { AssignedProject, attributes: [] } // Excludes relation table from the query
+            }]
+        });
+        res.status(200);
+        res.send(results);
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 router.get('/:id', async (req, res) => {
@@ -36,14 +45,14 @@ router.get('/:id', async (req, res) => {
         if (results.length < 1) {
             res.send({
                 message: "Project not found"
-            })
+            });
         } else {
             res.send(results);
         }
     } catch (e) {
         res.send({
             error: e
-        })
+        });
     }
 });
 
