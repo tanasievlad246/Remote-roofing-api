@@ -4,7 +4,6 @@ import passport from 'passport';
 import { hashPassword, validatePassword } from '../utils/passwordUtils';
 import { User, Task, Project } from '../../models/index';
 import { issueJWT } from '../utils/JWTUtils';
-
 const router = express.Router();
 
 /**
@@ -43,6 +42,7 @@ router.get('/:id', async (req, res) => {
 /**
  * Get one user and all projects and tasks the user is an asigner for
  * @param { id } "the uuid of a user"
+ * TODO: Move to user controller
  */
 router.get('/:id/asigner', async (req, res) => {
     let results = await User.findAll(
