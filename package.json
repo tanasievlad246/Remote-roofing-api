@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/tanasievlad246/Remote-roofing-api/issues"
   },
-  "homepage": "https://github.com/tanasievlad246/Remote-roofing-api#readme"
+  "homepage": "https://github.com/tanasievlad246/Remote-roofing-api#readme",
+  "dependencies": {
+    "react-router-dom": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.1.7"
+  }
 }
