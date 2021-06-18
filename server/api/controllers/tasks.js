@@ -13,11 +13,11 @@ const router = express.Router();
  */
 router.get('/', async (req, res) => {
     let results = await Task.findAll({
-        include: [User, Project, {
+        include: [ User, Project, {
             model: User,
             as: "assignees",
             through: { attributes: [] } // Excludes relation from the response
-        }]
+        } ]
     });
     res.status(200);
     res.send(results);
@@ -32,14 +32,14 @@ router.get('/:id', async (req, res) => {
         });
         res.status(200);
         if (results.length < 1) {
-            res.send({ message: "Task not found" })
+            res.send({ message: "Task not found" });
         } else {
             res.send(results);
         }
     } catch (e) {
         res.send({
             error: "resource not found"
-        })
+        });
     }
 });
 
@@ -51,10 +51,10 @@ router.post('/', async (req, res) => {
         status: req.body.status,
         asigner: req.body.asigner,
         project: req.body.project
-    })
+    });
     res.status(200);
     res.send(task);
-})
+});
 
 /**
  * Assign a task to a user
@@ -63,10 +63,10 @@ router.post('/assign', async (req, res) => {
     let assign = await AssignedTask.create({
         UserId: req.body.user_id,
         TaskId: req.body.task_id
-    })
+    });
     res.status(200);
     res.send(assign);
-})
+});
 
 router.delete("/:id", async (req, res) => {
     try {
@@ -74,13 +74,13 @@ router.delete("/:id", async (req, res) => {
             where: {
                 id: req.params.id
             }
-        })
+        });
         res.status(202);
         res.send(operation);
     } catch (error) {
         res.send(error);
     }
-})
+});
 
 router.patch("/:id", async (req, res) => {
     try {
@@ -100,7 +100,5 @@ router.patch("/:id", async (req, res) => {
         res.send(error);
     }
 });
-
-//Implement assigning of Tasks
 
 export default router;

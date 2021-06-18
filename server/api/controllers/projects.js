@@ -12,19 +12,19 @@ const router = express.Router();
  * name/surname of the assigner, 
  * name/surname/id of the assignee(s) and by score
  */
-router.get('/assignees', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/assignees', async (req, res) => {
     const userId = req.user.dataValues.id;
 
     try {
         let results = await Project.findAll({
-            include: [User, {
+            include: [ User, {
                 model: User,
                 as: "ProjectAssignees",
                 where: {
                     "id": userId
                 },
                 through: { AssignedProject, attributes: [] } // Excludes relation table from the query
-            }]
+            } ]
         });
         res.status(200);
         res.send(results);
@@ -63,10 +63,10 @@ router.post('/assign', async (req, res) => {
     let assign = await AssignedProject.create({
         UserId: req.body.user_id,
         ProjectId: req.body.project_id
-    })
+    });
     res.status(200);
     res.send(assign);
-})
+});
 
 router.post('/', async (req, res) => {
     let project = await Project.create({
@@ -76,7 +76,7 @@ router.post('/', async (req, res) => {
         status: req.body.status,
         score: req.body.score,
         asigner: req.body.asigner
-    })
+    });
     res.status(200);
     res.send(project);
 });
@@ -87,7 +87,7 @@ router.delete("/:id", async (req, res) => {
             where: {
                 id: req.params.id
             }
-        })
+        });
         res.status(202);
         res.send(operation);
     } catch (error) {

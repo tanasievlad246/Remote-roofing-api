@@ -1,25 +1,11 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from 'react-router-dom';
-import Dashboard from '../pages/Dashboard';
-import Home from '../App';
+import { Link } from 'react-router-dom';
 
-function Navbar() {
-  return (
-    <Router>
-        <Switch>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-    </Router>
-  );
+export default function Navbar() {
+    return (
+        <div>
+            <Link to="/">Home</Link>
+            <Link to="/dashboard">Dashboard</Link>
+        </div>
+    );
 }
-
-export default Navbar;

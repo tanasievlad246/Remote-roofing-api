@@ -10,7 +10,7 @@ const router = express.Router();
  * Get all users
  * TODO: Implement filtering by name and surname 
  */
-router.get('/', async (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
     if (req.body.filter) {
         let results = await User.findAll({
             order: sequelize.literal(`${req.body.filter} ASC`),
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
  *
  * @param { id } "user id to retrieve the user who has that id"
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     let results = await User.findAll({
         where: {
             id: req.params.id
@@ -44,7 +44,7 @@ router.get('/:id', async (req, res) => {
  * @param { id } "the uuid of a user"
  * TODO: Move to user controller
  */
-router.get('/:id/asigner', async (req, res) => {
+router.get('/:id/asigner', passport.authenticate('jwt', { session: false }), async (req, res) => {
     let results = await User.findAll(
         {
             where: {
@@ -57,10 +57,7 @@ router.get('/:id/asigner', async (req, res) => {
     res.send(results);
 });
 
-/**
- * Post one user
- * TODO: Implement password hashing
- */
+// Register a user
 router.post('/', async (req, res) => {
     const securityHashes = hashPassword(req.body.password);
     const salt = securityHashes.salt;
@@ -79,7 +76,7 @@ router.post('/', async (req, res) => {
 });
 
 
-// TODO: Create login functionality for jwt
+// Login a user
 router.post("/login", async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -114,7 +111,7 @@ router.post("/login", async (req, res) => {
  * Update user fields
  * @param { id } "the uuid of a user"
  */
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const update = await User.update(req.body, {
             where: {
@@ -137,8 +134,9 @@ router.patch("/:id", async (req, res) => {
 
 /**
  * Delete one user
+ * Research for admin delete of a user and for user sel delete account
  */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const operation = await User.destroy({
             where: {
