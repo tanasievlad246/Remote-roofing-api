@@ -1,4 +1,3 @@
-import React from 'react';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Navbar from "./components/Navbar";
