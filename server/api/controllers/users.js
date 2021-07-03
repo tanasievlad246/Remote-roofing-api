@@ -107,6 +107,21 @@ router.post("/login", async (req, res) => {
     }
 });
 
+// TODO: Implement logout
+app.get('/logout', passport.authenticate('jwt', { session: false }), function (req, res) {
+    try {
+        req.logout();
+        res.status(200);
+        res.send({
+            message: "Logout succesfull"
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400);
+        res.send(error);
+    }
+});
+
 /**
  * Update user fields
  * @param { id } "the uuid of a user"
