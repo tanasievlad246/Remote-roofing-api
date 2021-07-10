@@ -1,12 +1,15 @@
 import Register from "../components/Register";
 import Authenticate from "../components/Authenticate";
 import { useState } from "react";
-import Auth from "../services/Authenticate";
 
-function Home(): JSX.Element {
+type HomeProps = {
+  authenticated: boolean
+}
+
+function Home({ authenticated }: HomeProps): JSX.Element {
   const [toggle, setToggle] = useState(false);
 
-  if (Auth.isLoggedIn()) {
+  if (authenticated) {
     return <div>
       <h1>Authenticated</h1>
     </div>

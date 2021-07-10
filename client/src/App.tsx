@@ -3,9 +3,9 @@ import Home from './pages/Home';
 import Navbar from "./components/Navbar";
 import {
   BrowserRouter as Router,
-  Route,
   Switch
 } from 'react-router-dom';
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -14,8 +14,8 @@ function App() {
         <Navbar />
         <Switch>
           {/* Wrap in protected route and pass auth result as prop */}
-          <Route exact path="/" component={Home} /> 
-          <Route exact path="/dashboard" component={Dashboard} />
+          <ProtectedRoute exact path="/" component={() => <Home authenticated={true}/>} />
+          <ProtectedRoute exact path="/dashboard" component={Dashboard} />
         </Switch>
       </Router>
     </div>

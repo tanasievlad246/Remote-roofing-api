@@ -1,16 +1,8 @@
 import React from "react";
-import { useState } from "react";
-import { Route, RouteProps, Redirect } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Auth from "../services/Authenticate";
 
-type ProtectedComponent = {
-    component: JSX.Element,
-    rest: any
-}
-
-export default function ProtectedRoute({component: Component, ...rest}:  {component: React.ComponentType<RouteProps>}): JSX.Element {
-    const [auth, setAuth] = useState(false);
-
+export default function ProtectedRoute({component: Component, ...rest}:  any): JSX.Element {
     return (
         <Route
             {...rest}
