@@ -6,28 +6,20 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import Auth from "./services/Authenticate";
 
 function App() {
-  if (Auth.isLoggedIn()) {
-    return (
-      <div>
-        
-      </div>
-    );
-  } else {
-    return (
-      <div className="App">
-        <Router>
-          <Navbar />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/dashboard" component={Dashboard} />
-          </Switch>
-        </Router>
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <Router>
+        <Navbar />
+        <Switch>
+          {/* Wrap in protected route and pass auth result as prop */}
+          <Route exact path="/" component={Home} /> 
+          <Route exact path="/dashboard" component={Dashboard} />
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 
 export default App;

@@ -1,18 +1,23 @@
 import { ChangeEvent, useState } from "react";
-import { IDynamicObject } from "../interfaces";
 import Auth from "../services/Authenticate";
+import { UserDetails } from "../types";
 
-export default function Register() {
-    const [userDetails, setUserDetails] = useState({});
+export default function Register(): JSX.Element {
+    const [userDetails, setUserDetails] = useState({
+        name: '',
+        surname: '',
+        email: '',
+        password: ''
+    });
 
     const fillUserDetails = (event: ChangeEvent<HTMLInputElement>): void => {
         const propName: string = event.target.name;
-        const prevState: IDynamicObject = userDetails;
+        const prevState: UserDetails = userDetails;
         prevState[propName] = event.target.value;
         setUserDetails(prevState);
     }
 
-    const registerUser = (userDetails: any): void => {
+    const registerUser = (userDetails: UserDetails): void => {
         Auth.register(userDetails)
             .then(response => {
                 console.log(response);
@@ -24,7 +29,7 @@ export default function Register() {
 
     return <div>
         <h1>Register</h1>
-        <label htmlFor="username">Username</label>
+        <label htmlFor="username">Name</label>
         <input type="text" name="name" onChange={e => fillUserDetails(e)}/>
         <label htmlFor="username">Surname</label>
         <input type="text" name="surname" onChange={e => fillUserDetails(e)}/>

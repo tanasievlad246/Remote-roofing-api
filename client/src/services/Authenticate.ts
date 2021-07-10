@@ -63,29 +63,24 @@ export default class Auth {
         }
     }
 
-    static async isLoggedIn(): Promise<boolean> {
+    static isLoggedIn(): boolean {
         const data: UserAuthenticationDetails = JSON.parse(localStorage.getItem('authData') || '{}');
-
         if (data.token) {
-            try {
-                const userDetailsUrl: string = `/users/${data.id}`;
-                const response: AxiosResponse = await Auth.client.get(userDetailsUrl);
-                if (response.status > 200 || response.status < 299) {
-                    localStorage.removeItem('authData');
-                    return Promise.resolve(false);
-                } else {
-                    return Promise.resolve(true);
+            const userDetailsUrl: string = `/users/${data.id}`;
+            const auth: boolean = Auth.client.get(userDetailsUrl, {
+                headers: {
+                    'Authorization': data.token
                 }
-            } catch (error) {
-                return Promise.reject(error);
-            }
+            }).then((response: any) => {
+                if (response.status < 200 || response.status > 299) {
+                    localStorage.removeItem('authData');
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+            return auth;
         }
-
-
-
-        
-        // make request to server see if token works
-        // if yes, return true if not return false
-        return Promise.resolve(true);
+        return false;
     }
 }

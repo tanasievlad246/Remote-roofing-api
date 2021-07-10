@@ -16,7 +16,7 @@ const ExtractJwt = passportJwt.ExtractJwt;
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: PUB_KEY,
-    algorithms: ['RS256'],
+    algorithms: [ 'RS256' ],
     jsonWebTokenOptions: {
         maxAge: '1d'
     }
@@ -25,8 +25,6 @@ const options = {
 export default (passport) => {
     // The JWT payload is passed into the verify callback
     passport.use(new Strategy(options, async function (jwt_payload, done) {
-
-        console.log(jwt_payload);
 
         // We will assign the `sub` property on the JWT to the database ID of user
         const user = await User.findOne({ id: jwt_payload.sub });
@@ -37,4 +35,4 @@ export default (passport) => {
             return done(null, user);
         }
     }));
-}
+};
