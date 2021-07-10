@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { UserDetails } from '../types';
+import { UserAuthenticationDetails, UserDetails } from '../types';
 
 interface UserLogin {
     email: string,
@@ -14,24 +14,32 @@ export default class Auth {
         }
     })
 
-    static login(credentials: UserLogin): boolean {
-        Auth.client.post("/users/login", credentials)
-            .then((response: AxiosResponse) => {
-                localStorage.setItem('authData', JSON.stringify(response.data));
-            })
-            .catch((error: Error) => {console.log(error)});
+    static async login(credentials: UserLogin): Promise<UserAuthenticationDetails> {
+        try {
+            const response: AxiosResponse = await Auth.client.post("/users/login", credentials);
+            localStorage.setItem('authData', JSON.stringify(response.data));
 
-        const data: string | null = localStorage.getItem("authData");
+            const data: UserAuthenticationDetails = JSON.parse(localStorage.getItem('authData') || '{}');
 
-        if (data) {
-            return true;
-        } else {
-            return false;
+            return new Promise((resolve, reject) => {
+                if (data.token) {
+                    resolve(data);
+                } else {
+                    reject(response);
+                }
+            });
+        } catch (error) {
+            return Promise.reject(error);
         }
     }
 
-    static logout(): boolean {
-        return true;
+    static async logout(): Promise<any> {
+        const userData: string | null = localStorage.getItem('authData');
+
+        if (userData) {
+            localStorage.removeItem('authData');
+            return  Promise.resolve(true);
+        }
     }
 
     static async register({name, surname, email, password}: UserDetails): Promise<boolean> {
@@ -55,7 +63,29 @@ export default class Auth {
         }
     }
 
-    static isLoggedIn(): boolean {
-        return false;
+    static async isLoggedIn(): Promise<boolean> {
+        const data: UserAuthenticationDetails = JSON.parse(localStorage.getItem('authData') || '{}');
+
+        if (data.token) {
+            try {
+                const userDetailsUrl: string = `/users/${data.id}`;
+                const response: AxiosResponse = await Auth.client.get(userDetailsUrl);
+                if (response.status > 200 || response.status < 299) {
+                    localStorage.removeItem('authData');
+                    return Promise.resolve(false);
+                } else {
+                    return Promise.resolve(true);
+                }
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        }
+
+
+
+        
+        // make request to server see if token works
+        // if yes, return true if not return false
+        return Promise.resolve(true);
     }
 }

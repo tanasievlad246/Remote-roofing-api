@@ -29,13 +29,21 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
  * @param { id } "user id to retrieve the user who has that id"
  */
 router.get('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    let results = await User.findAll({
-        where: {
-            id: req.params.id
-        }
-    });
-    res.status(200);
-    res.send(results);
+    try {
+        let results = await User.findAll({
+            where: {
+                id: req.params.id
+            }
+        });
+        res.status(200);
+        res.send(results);
+    } catch (error) {
+        res.status(404);
+        res.send({
+            message: error,
+            status: 404
+        });
+    }
 });
 
 

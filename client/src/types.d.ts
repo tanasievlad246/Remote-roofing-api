@@ -4,3 +4,9 @@ export type UserDetails = {
     email: string,
     password: string
 }
+
+export type UserAuthenticationDetails = {
+    token: string,
+    id: string,
+    expires: string
+}
