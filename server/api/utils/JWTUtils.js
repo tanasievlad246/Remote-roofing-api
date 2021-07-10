@@ -8,7 +8,7 @@ const PRIV_KEY = fs.readFileSync(pathToKey, 'utf8');
 /**
  * @param {*} user - The user object.  We need this to set the JWT `sub` payload property to the MongoDB user ID
  */
-export function issueJWT(user) {
+export function issueJWT (user) {
     const id = user.id;
 
     const expiresIn = '1d';
@@ -22,6 +22,7 @@ export function issueJWT(user) {
 
     return {
         token: "Bearer " + signedToken,
-        expires: expiresIn
-    }
+        expires: expiresIn,
+        id: id
+    };
 }

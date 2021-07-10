@@ -6,6 +6,7 @@ import session from 'express-session';
 import sequelizeStore from 'connect-session-sequelize';
 import sequelize from '../api/config/config';
 import jwtConfig from './config/jwtconfig';
+import cors from 'cors';
 
 /*
 * Importing  the controllers
@@ -21,6 +22,11 @@ const port = process.env.PORT || 8090;
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 dbConnect();
+
+//enable cors
+app.use(cors({
+    origin: '*'
+}));
 
 // for jwt authentication and authorization
 jwtConfig(passport);

@@ -1,30 +1,32 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { UserDetails } from '../types';
 
-interface AuthObject {
-    token: string
+interface UserLogin {
+    email: string,
+    password: string
 }
 export default class Auth {
-    static async login(username: string, password: string): Promise<AuthObject> {
-        try {
-            const UserObject: AuthObject = await axios.post('/API/login', {
-                username,
-                password
-            });
-            console.log(UserObject);
+    private static client: any = axios.create({
+        baseURL: 'http://localhost:8090/API',
+        responseType: 'json',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
 
-            return new Promise((resolve, reject) => {
-                if (UserObject.hasOwnProperty('token')) {
-                    resolve(UserObject);
-                } else {
-                    reject({
-                        message: "An error has occoured",
-                        error: UserObject
-                    });
-                }
-            });
-        } catch (error) {
-            console.log(error);
-            throw error;
+    static login(credentials: UserLogin): boolean {
+        Auth.client.post("/users/login", credentials)
+            .then((response: AxiosResponse) => {
+                localStorage.setItem('authData', JSON.stringify(response.data));
+            })
+            .catch((error: Error) => {console.log(error)});
+
+        const data: string | null = localStorage.getItem("authData");
+
+        if (data) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -32,11 +34,28 @@ export default class Auth {
         return true;
     }
 
-    static register(): boolean {
-        return true;
+    static async register({name, surname, email, password}: UserDetails): Promise<boolean> {
+        try {
+            const registerResponse = await Auth.client.post("/users", {
+                name,
+                surname,
+                email,
+                password
+            });
+
+            return new Promise((resolve, reject) => {
+                if (registerResponse.success) {
+                    resolve(registerResponse);
+                } else {
+                    reject(registerResponse);
+                }
+            });
+        } catch (error) {
+            return Promise.reject({message: error})
+        }
     }
 
     static isLoggedIn(): boolean {
-        return true;
+        return false;
     }
 }

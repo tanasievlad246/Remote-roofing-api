@@ -18,7 +18,6 @@ function App() {
   } else {
     return (
       <div className="App">
-      
         <Router>
           <Navbar />
           <Switch>
