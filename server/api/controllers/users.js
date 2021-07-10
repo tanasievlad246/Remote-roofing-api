@@ -31,6 +31,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
 router.get('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         let results = await User.findAll({
+            attributes: [ 'id', 'name', 'surname', 'email' ],
             where: {
                 id: req.params.id
             }
