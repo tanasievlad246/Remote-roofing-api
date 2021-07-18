@@ -12,7 +12,7 @@ export default function ProtectedRoute({component: Component, ...rest}:  any): J
                 } else {
                     return <Redirect to={
                         {
-                            pathname: '/',
+                            pathname: '/noauth',
                             state: {
                                 from: props.location
                             }

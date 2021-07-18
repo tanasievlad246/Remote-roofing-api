@@ -1,11 +1,14 @@
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Navbar from "./components/Navbar";
+import NoAuth from "./pages/NoAuth";
 import {
   BrowserRouter as Router,
+  Route,
   Switch
 } from 'react-router-dom';
 import ProtectedRoute from "./components/ProtectedRoute";
+import Auth from "./services/Authenticate";
 
 function App() {
   return (
@@ -13,9 +16,9 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          {/* Wrap in protected route and pass auth result as prop */}
-          <ProtectedRoute exact path="/" component={() => <Home authenticated={true}/>} />
+          <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/noauth" component={NoAuth}/>
         </Switch>
       </Router>
     </div>

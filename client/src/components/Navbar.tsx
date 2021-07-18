@@ -47,12 +47,12 @@ export default function Navbar(): JSX.Element {
                 </IconButton>
                 <Drawer anchor={'left'} open={drawState} onClose={() => setDrawState(false)}>
                     <List className={classes.list}>
-                        <ListItem button color="link" component={Link} to="/dashboard" onClick={() => setDrawState(false)}>
+                        <ListItem color="link" component={Link} to="/dashboard">
                             <ListItemIcon><InboxIcon></InboxIcon></ListItemIcon>
                             <ListItemText>Dashboard</ListItemText>
                         </ListItem>
                         <Divider />
-                        <ListItem button color="link" component={Link} to="/" onClick={() => setDrawState(false)}>
+                        <ListItem color="link" component={Link} to="/">
                             <ListItemIcon><InboxIcon></InboxIcon></ListItemIcon>
                             <ListItemText>Tasks</ListItemText>
                         </ListItem>
