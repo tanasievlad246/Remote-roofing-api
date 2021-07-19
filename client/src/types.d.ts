@@ -1,3 +1,5 @@
+//TODO: Create types for the redux types
+
 export type UserDetails = {
     name: string,
     surname: string,
