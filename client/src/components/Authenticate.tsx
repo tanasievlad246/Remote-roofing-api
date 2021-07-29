@@ -3,7 +3,7 @@ import Auth from "../services/Authenticate";
 import { UserAuthenticationDetails } from "../types";
 import { Typography, TextField, Button, Grid } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { bindActionCreators } from "redux";
+import { ActionCreatorsMapObject, bindActionCreators } from "redux";
 import { actionCreators } from "../state";
 
 export default function Authenticate(): JSX.Element {
@@ -14,7 +14,7 @@ export default function Authenticate(): JSX.Element {
 
     const dispatch = useDispatch();
 
-    const { actionCreatorName } = bindActionCreators(actionCreators);
+    const { actionCreatorName }: ActionCreatorsMapObject = bindActionCreators(actionCreators, dispatch);
 
     const state = useSelector((state) => state); // returns the state that you want from the store ex state.tasks
 
@@ -27,7 +27,6 @@ export default function Authenticate(): JSX.Element {
         <Grid
             container
             direction="column"
-            justifyContent="space-between"
             alignItems="center"
             spacing={0}>
             <Typography variant="h2">Log In</Typography>

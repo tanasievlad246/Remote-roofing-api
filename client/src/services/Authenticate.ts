@@ -83,4 +83,7 @@ export default class Auth {
         }
         return false;
     }
+
+    // TODO: Get token function
+    // TODO: Get user details function
 }

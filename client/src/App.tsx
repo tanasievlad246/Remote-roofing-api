@@ -8,7 +8,6 @@ import {
   Switch
 } from 'react-router-dom';
 import ProtectedRoute from "./components/ProtectedRoute";
-import Auth from "./services/Authenticate";
 
 function App() {
   return (

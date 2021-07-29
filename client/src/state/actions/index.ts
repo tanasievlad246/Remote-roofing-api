@@ -1,4 +1,7 @@
-export enum TaskActionTypes {
-    INIT = "INIT",
-    GET = "GET"
+export enum ActionTypes {
+    GET = "get",
+    CREATE = "create",
+    UPDATE = "update",
+    POST = "post",
+    DELETE = "delete"
 }

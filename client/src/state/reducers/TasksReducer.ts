@@ -1,14 +1,13 @@
-const reducer = (state: any, action: any): any => {
+import { Action, Task } from "../../types";
+
+const reducer = (state: Task[] = [], action: Action): any => {
     switch (action.type) {
-        case "INIT":
-            return state + action.payload; // get all tasks that belong to the user into the store
-            break;
-        case "GET":
-            return state + action.payload; // get one task
-            break;
+        case "get":
+            return [...state, action.payload];
+        case "create":
+            return [...state, action.payload];
         default:
             return state;
-            break;
     }
 }
 
