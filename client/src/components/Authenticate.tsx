@@ -5,6 +5,7 @@ import { Typography, TextField, Button, Grid } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { ActionCreatorsMapObject, bindActionCreators } from "redux";
 import { actionCreators } from "../state";
+import { Box } from "@material-ui/core";
 
 export default function Authenticate(): JSX.Element {
     const [email, setEmail] = useState("");
@@ -12,30 +13,23 @@ export default function Authenticate(): JSX.Element {
 
     const login = (email: string, password: string): Promise<UserAuthenticationDetails> => Auth.login({email, password});
 
-    const dispatch = useDispatch();
-
-    const { actionCreatorName }: ActionCreatorsMapObject = bindActionCreators(actionCreators, dispatch);
-
-    const state = useSelector((state) => state); // returns the state that you want from the store ex state.tasks
-
-    /**
-     * TODO: actions
-     * <Button onClick={() => actionCreatorName(arguments)} />
-     */
-
-    return <div>
-        <Grid
-            container
-            direction="column"
-            alignItems="center"
-            spacing={0}>
+    return <Grid item>
+        <Box>
             <Typography variant="h2">Log In</Typography>
-            <TextField  type="text" name="email" label="Email" onChange={e => setEmail(e.target.value)}/>
-            <TextField type="password" name="password" label="Password" onChange={e => setPassword(e.target.value)}/>
+        </Box>
+        <Box mt={5}>
+            <Grid>
+                <TextField  type="text" name="email" label="Email" onChange={e => setEmail(e.target.value)}/>
+            </Grid>
+            <Grid item xs={12}>
+                <TextField type="password" name="password" label="Password" onChange={e => setPassword(e.target.value)}/>
+            </Grid>
+        </Box>
+        <Box mt={5} mb={5}>
             <Button color="primary" variant="contained" onClick={async () => {
-               const loginData = await login(email, password);
-               console.log(loginData);
+                const loginData = await login(email, password);
+                console.log(loginData);
             }}>Log In</Button>
-        </Grid>
-    </div>
+        </Box>
+    </Grid>
 }

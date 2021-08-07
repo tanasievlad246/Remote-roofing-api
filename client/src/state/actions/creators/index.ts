@@ -1,14 +1,19 @@
 import { Dispatch } from "react";
 import { ActionTypes } from "..";
-import { Action } from "../../../types";
+import { Action, Task } from "../../../types";
+import Client from "../../../services/Client";
+import { AxiosResponse } from "axios";
+import Auth from "../../../services/Authenticate";
 
 //TODO: Create actions for tasks, projects and user details, also for filters on tasks projects
 
-export const actionCreatorName = (argument: any) => {
-    return (dispatch: Dispatch<Action>) => {
+export const getTasksAction = () => {
+    return async (dispatch: Dispatch<Action>) => {
+        const token: string = Auth.getToken().token;
+        const response: AxiosResponse = await Client.get('/tasks', token);
         dispatch({
-            type: ActionTypes.CREATE,
-            payload: argument
+            type: ActionTypes.GET,
+            payload: response.data
         });
     }
 }

@@ -1,7 +1,6 @@
 export enum ActionTypes {
     GET = "get",
-    CREATE = "create",
     UPDATE = "update",
-    POST = "post",
+    POST = "create",
     DELETE = "delete"
 }

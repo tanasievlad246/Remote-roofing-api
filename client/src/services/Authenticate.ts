@@ -84,6 +84,7 @@ export default class Auth {
         return false;
     }
 
-    // TODO: Get token function
-    // TODO: Get user details function
+    static getToken(): UserAuthenticationDetails {
+        return JSON.parse(localStorage.getItem('authData') || '{}');
+    }
 }

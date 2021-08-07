@@ -1,7 +1,7 @@
 //TODO: Create interfaces for the redux actions
 
 import { ActionTypes } from "./state/actions";
-import { Action } from "./types";
+import { Action, Task } from "./types";
 
 export interface IDynamicObject {
     [key: string]: string
@@ -9,7 +9,7 @@ export interface IDynamicObject {
 
 export interface GetAction {
     type: ActionTypes.GET,
-    payload: boolean
+    payload: []
 }
 
 export interface CreateAction {
@@ -24,5 +24,5 @@ export interface DeleteAction {
 
 export interface UpdateAction {
     type: ActionTypes.UPDATE,
-    payload: boolean
+    payload: Task
 }
