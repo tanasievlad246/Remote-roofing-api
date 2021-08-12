@@ -12,6 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import CreateElementDialog from "./CreateElementDialog";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     navBarStyle: {
@@ -71,9 +72,10 @@ export default function Navbar(): JSX.Element {
                 <Typography variant="h6">
                     Project management
                 </Typography>
-                <Fab color="primary" aria-label="add" className={classes.linkStyle} onClick={(event) => console.log(event)}>
+                <Fab color="primary" aria-label="add" className={classes.linkStyle} onClick={() => handleClickOpen()}>
                     <AddIcon />
                 </Fab>
+                <CreateElementDialog open={openDialog} handleClose={handleClose} handleOpen={handleClickOpen}/>
             </Toolbar>
         </AppBar>
     );
