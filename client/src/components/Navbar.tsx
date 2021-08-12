@@ -38,6 +38,15 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 export default function Navbar(): JSX.Element {
     const classes = useStyles();
     const [drawState, setDrawState] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleClickOpen = (): void => {
+        setOpenDialog(true);
+    };
+
+    const handleClose = (): void => {
+        setOpenDialog(false);
+    };
 
     return (
         <AppBar position="static">
@@ -62,7 +71,7 @@ export default function Navbar(): JSX.Element {
                 <Typography variant="h6">
                     Project management
                 </Typography>
-                <Fab color="primary" aria-label="add" className={classes.linkStyle}>
+                <Fab color="primary" aria-label="add" className={classes.linkStyle} onClick={(event) => console.log(event)}>
                     <AddIcon />
                 </Fab>
             </Toolbar>
